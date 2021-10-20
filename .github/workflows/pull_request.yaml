@@ -3,6 +3,11 @@ name: pull_request
 on: [push]
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup
+        run: echo "This is gonna run at the same time as hello world"
   test-action:
     runs-on: ubuntu-latest
     steps:
