@@ -2,6 +2,9 @@ name: pull_request
 
 on: [push]
 
+env:
+  MY_ENV_VAR: "hello from env"
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -13,4 +16,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: hello world of actions
-        run: echo "Hello world!"
+        run: echo "Hello world! This is my env - ${{ env.MY_ENV_VAR }} "
