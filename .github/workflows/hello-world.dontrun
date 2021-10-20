@@ -1,0 +1,22 @@
+name: hello-world
+
+on: [push]
+
+jobs:
+  hello-world-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+  
+      - name: say hello world
+        uses: ./.github/actions/hello-world
+        with:
+          my_input: "hello from inputs"
+
+  hello-mayya-job:
+    needs: [hello-world-job]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello Mayya"
+        name: say hello Mayya
