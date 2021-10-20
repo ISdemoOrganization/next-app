@@ -1,0 +1,10 @@
+name: pull_request
+
+on: [push]
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello world of actions
+        run: echo "Hello world!"
