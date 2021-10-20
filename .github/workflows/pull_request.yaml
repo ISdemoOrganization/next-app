@@ -9,6 +9,7 @@ jobs:
       - name: setup
         run: echo "This is gonna run at the same time as hello world"
   test-action:
+    needs: [setup]
     runs-on: ubuntu-latest
     steps:
       - name: hello world of actions
