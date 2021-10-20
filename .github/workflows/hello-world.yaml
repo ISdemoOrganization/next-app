@@ -11,6 +11,8 @@ jobs:
   
       - name: say hello world
         uses: ./.github/actions/hello-world
+        with:
+          my_input: "hello from inputs"
 
   hello-mayya-job:
     needs: [hello-world-job]
