@@ -8,3 +8,8 @@ jobs:
     steps:
       - name: say hello world
         run: echo "Hello world!"
+  hello-mayya-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello Mayya"
+        name: say hello Mayya
