@@ -12,4 +12,4 @@ runs:
   steps:
     - name: say greeting
       run: echo "${{ inputs.my_input }}"
-      shell: bashs
+      shell: bash
