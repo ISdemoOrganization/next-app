@@ -1,0 +1,24 @@
+name: release
+
+on:
+  release:
+    types: [published]
+
+env:
+  REGISTRY: europe-west3-docker.pkg.dev
+  GCP_PROJECT_ID: simple-326714
+  APP_NAME: next-app
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: build docker image
+        run: docker build --tag ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/docker/${{ env.APP_NAME }}:${{ github.event.release.tag_name }}
