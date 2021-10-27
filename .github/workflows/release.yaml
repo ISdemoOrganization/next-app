@@ -8,7 +8,7 @@ env:
   GCP_REGISTRY: europe-west3-docker.pkg.dev
   GCP_PROJECT_ID: simple-326714
   APP_NAME: next-app
-  VERSION: ${{ github.event.release.tag_name}}
+  VERSION: ${{ github.event.release.tag_name }}
 
 jobs:
   docker:
