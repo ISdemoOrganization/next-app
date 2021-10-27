@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: next-app-deployment
+  labels:
+    app: next-app
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: next-app
+  template:
+    metadata:
+      labels:
+        app: next-app
+    spec:
+      containers:
+        - name: next-app-container
+          image: europe-west3-docker.pkg.dev/simple-326714/docker/next-app:v1.0.2
+    
+          ports:
+          - name: next-app-port
+            containerPort: 3000
