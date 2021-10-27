@@ -8,6 +8,7 @@ env:
   GCP_REGISTRY: europe-west3-docker.pkg.dev
   GCP_PROJECT_ID: simple-326714
   APP_NAME: next-app
+  VERSION: ${{ github.event.release.tag_name}}
 
 jobs:
   docker:
@@ -19,8 +20,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: build docker image
-        run: docker build --tag ${{ env.GCP_REGISTRY }}/${{ env.GCP_PROJECT_ID }}/docker/${{ env.APP_NAME }}:${{ github.events.release.tag_name }} .
+        run: docker build --tag ${{ env.GCP_REGISTRY }}/${{ env.GCP_PROJECT_ID }}/docker/${{ env.APP_NAME }}:${{ env.VERSION }} .
       
       - name: push docker image
-        run: docker push ${{ env.GCP_REGISTRY }}/${{ env.GCP_PROJECT_ID }}/docker/${{ env.APP_NAME }}:${{ github.events.release.tag_name }}
+        run: docker push ${{ env.GCP_REGISTRY }}/${{ env.GCP_PROJECT_ID }}/docker/${{ env.APP_NAME }}:${{ env.VERSION }}
         
