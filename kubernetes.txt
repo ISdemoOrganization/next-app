@@ -1,0 +1,18 @@
+
+
+kubernetes cluster
+node+  // computer
+    pods+ // kubernetes abstraction
+        container+ // docker container
+
+
+kubernetes cluster
+node
+    pods
+        container 
+node
+    pods
+        container
+node
+    pods
+        container 
