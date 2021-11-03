@@ -24,20 +24,22 @@
 * Setup a github action for a release ( docker image push )
     * Explain GCP service accounts
     * Create a service account with access to artifact registry
+
+# Day 5
 * Explain the need for kubernetes
 * Explain the kubernetes components
 * Install kubectl
 * Create a small deployment for our dockerized app
-* Create a small NodePort service to expose our app to the host machine
+* Create a small LoadBalancer service to expose our app to the host machine
 
-# Day 5
+# Day 6
 * Enable the GCP Kubernetes engine
 * Create a cluster with small resource nodes
 * Configure kubectl to use gcp k8s cluster
 * Deploy our deployment to the gcloud cluster
 * Note the NodePort > LoadBalancer change we have to make
 
-# Day 6
+# Day 7
 * Explain the need for helm
 * Install helm
 * Create helm chart
