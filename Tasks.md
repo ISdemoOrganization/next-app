@@ -28,16 +28,12 @@
 # Day 5
 * Explain the need for kubernetes
 * Explain the kubernetes components
-* Install kubectl
-* Create a small deployment for our dockerized app
-* Create a small LoadBalancer service to expose our app to the host machine
-
-# Day 6
 * Enable the GCP Kubernetes engine
 * Create a cluster with small resource nodes
-* Configure kubectl to use gcp k8s cluster
-* Deploy our deployment to the gcloud cluster
-* Note the NodePort > LoadBalancer change we have to make
+* Setup gcloud and kubectl to our personal account and cluster
+* Create a small deployment for our dockerized app
+* Create a small LoadBalancer service to expose our app to the host machine
+* Deploy the resources to the gcloud cluster
 
 # Day 7
 * Explain the need for helm
