@@ -45,6 +45,15 @@ kubectl config set-context --current --namespace={namespace}
 # kubectl delete context, cluster or user config
 kubectl config delete-{context/cluster/user} {contex/cluster/user id}
 
+# kubectl install resource by file
+kubectl apply -f {resourceYamlFile}
+
+# kubectl uninstall resource by file
+kubectl delete -f {resourceYamlFile}
+
+# kubectl uninstall resource
+kubectl delete {resource} {resouceName}
+
 ### Where
 * projectId - the id of the gcp project you are using
 * registryUrl - europe-west3-docker.pkg.dev
@@ -52,3 +61,5 @@ kubectl config delete-{context/cluster/user} {contex/cluster/user id}
 * region/zone - region or zone, depending on what you provisioned your cluster with
 * oldName, newName - any valid cluster name
 * namespace - any kubernetes namespace
+* resourceYamlFile - any valid k8s yaml resource file
+* resource - any valid k8s resource

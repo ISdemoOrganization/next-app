@@ -35,8 +35,9 @@
 * Create a small LoadBalancer service to expose our app to the host machine
 * Deploy the resources to the gcloud cluster
 * Access our app on the internet
+* Delete cluster
 
-# Day 7
+# Day 6
 * Explain the need for helm
 * Install helm
 * Create helm chart
