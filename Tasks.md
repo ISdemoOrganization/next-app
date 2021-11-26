@@ -38,6 +38,7 @@
 * Delete cluster
 
 # Day 6
+* k8s deploy using github actions
 * Explain the need for helm
 * Install helm
 * Create helm chart
