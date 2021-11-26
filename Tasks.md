@@ -34,6 +34,7 @@
 * Create a small deployment for our dockerized app
 * Create a small LoadBalancer service to expose our app to the host machine
 * Deploy the resources to the gcloud cluster
+* Access our app on the internet
 
 # Day 7
 * Explain the need for helm
