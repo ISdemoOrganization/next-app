@@ -59,9 +59,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - uses: ./.github/actions/setup_helm
-      #   with:
-      #     VERSION: ${{ env.HELM_VERSION}}
+      - uses: azure/setup-helm@v1
+        with:
+          version: ${{ env.VERSION }}
 
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@master
