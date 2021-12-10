@@ -93,5 +93,5 @@ jobs:
         shell: bash
 
       - name: push helm chart
-        run: helm chart push oci://${{ needs.vars.outputs.HELM_IMAGE_TAG }}
+        run: helm chart push ${{ needs.vars.outputs.HELM_IMAGE_TAG }}
         shell: bash
