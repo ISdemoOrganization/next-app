@@ -1,22 +1,22 @@
 name: deploy
 
-on:
-  pull_request:
-    branches:
-      - '*'
-    tags-ignore:
-      - '*'
-
 # on:
-#   workflow_dispatch:
-#     inputs:
-#       ENV:
-#         description: 'Env (we have only one)'
-#         required: true
-#         default: 'development'
-#       VERSION:
-#         description: 'Release Version (eg. 0.0.5)'
-#         required: true 
+#   pull_request:
+#     branches:
+#       - '*'
+#     tags-ignore:
+#       - '*'
+
+on:
+  workflow_dispatch:
+    inputs:
+      ENV:
+        description: 'Env (we have only one)'
+        required: true
+        default: 'development'
+      VERSION:
+        description: 'Release Version (eg. 0.0.5)'
+        required: true 
 
 defaults:
   run:
@@ -34,7 +34,7 @@ jobs:
   vars: 
     # setup vars for easier usage (eg. needs.vars.outputs.HELM_IMAGE_TAG ); 
     # useful when building vars based on env 
-    runs-on: [self-hosted, tools-low]
+    runs-on: ubuntu-latest
     outputs:
       HELM_IMAGE_TAG: ${{ steps.helm.outputs.HELM_IMAGE_TAG }}
     steps:
@@ -43,7 +43,7 @@ jobs:
 
   helm: 
     # create, push and deploy helm chart
-    runs-on: [self-hosted, tools-low]
+    runs-on: ubuntu-latest
     needs: [vars]
     steps:
       - uses: actions/checkout@v2

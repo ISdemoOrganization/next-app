@@ -1,8 +1,14 @@
 name: release
-
 on:
-  release:
-    types: [published]
+  pull_request:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+
+# on:
+#   release:
+#     types: [published]
 
 env:
   GCP_PROJECT_ID: simple-326714
@@ -41,7 +47,7 @@ jobs:
 
   helm:
     # create, push and deploy helm chart
-    runs-on: [self-hosted, tools-low]
+    runs-on: ubuntu-latest
     needs: [vars]
     steps:
       - uses: actions/checkout@v2
