@@ -79,14 +79,6 @@ jobs:
         run: gcloud auth print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://${{ env.GCP_REGISTRY }}
         shell: bash
 
-      - name: kubeconfig
-        run: kubectl config view
-        shell: bash
-
-      - name: current-cluster
-        run: kubectl config current-context
-        shell: bash
-
       - name: bump version
         run: |
           sed -i 's/0.0.1/${{ env.VERSION }}/' helm/${{ env.APP_NAME }}/Chart.yaml
