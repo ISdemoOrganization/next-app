@@ -44,3 +44,8 @@ spec:
           ports:
           - name: next-app-port
             containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.env.NODE_ENV }}
+            - name: DB_CONNECTION_STRING
+              value: {{ .Values.env.DB_CONNECTION_STRING }}
