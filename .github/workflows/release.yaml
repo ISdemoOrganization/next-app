@@ -16,9 +16,16 @@ env:
   GCP_CLUSTER_ZONE: europe-west1-b
   GCP_REGISTRY: europe-west3-docker.pkg.dev
   APP_NAME: next-app
-  VERSION: ${{ github.event.release.tag_name }}
+  VERSION: 0.0.0 # ${{ github.event.release.tag_name }}
 
 jobs:
+  vars: 
+    runs-on: ubuntu-latest
+    outputs:
+      HELM_IMAGE_TAG: ${{ steps.helm.outputs.HELM_IMAGE_TAG }}
+    steps:
+      - id: helm
+        run: echo "::set-output name=HELM_IMAGE_TAG::${{ env.GCP_REGISTRY }}/${{ env.GCP_PROJECT_ID }}/helm/${{ env.APP_NAME }}:${{ env.VERSION }}"
   # docker:
   #   runs-on: ubuntu-latest
   #   steps:
