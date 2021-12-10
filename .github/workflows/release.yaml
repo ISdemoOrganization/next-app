@@ -76,7 +76,7 @@ jobs:
         shell: bash
 
       - name: authenticate to registry
-        run: helm registry login -u _json_key_base64 -p ${{ secrets.GCP_SA_KEY }} ${{ env.GCP_REGISTRY }}
+        run: gcloud auth print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://${{ env.GCP_REGISTRY }}
         shell: bash
 
       - name: kubeconfig
