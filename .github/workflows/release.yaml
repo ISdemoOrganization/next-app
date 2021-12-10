@@ -18,6 +18,8 @@ env:
   APP_NAME: next-app
   VERSION: 0.0.0 # ${{ github.event.release.tag_name }}
 
+  HELM_VERSION: "v3.6.0"
+  HELM_EXPERIMENTAL_OCI: 1
 jobs:
   vars: 
     runs-on: ubuntu-latest
@@ -61,7 +63,7 @@ jobs:
 
       - uses: azure/setup-helm@v1
         with:
-          version: ${{ env.VERSION }}
+          version: ${{ env.HELM_VERSION }}
 
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@master
