@@ -1,0 +1,20 @@
+name: setup_helm
+description: 'Setup helm'
+inputs:
+  VERSION:
+    required: true
+    description: 'The version of helm to use (eg. v3.6.0 )'
+
+outputs: {}
+
+runs:
+  using: composite
+  steps:
+    - name: Download k8s-tools
+      run: |
+        mkdir k8s-tools && cd k8s-tools
+        DOWNLOADS="https://get.helm.sh/helm-${{ inputs.VERSION }}-linux-amd64.tar.gz"
+        echo $DOWNLOADS | xargs -n 1 -P 8 wget -q
+        tar xvf helm-${{ inputs.VERSION }}-linux-amd64.tar.gz
+        sudo mv linux-amd64/helm /usr/local/bin
+      shell: bash

@@ -1,0 +1,99 @@
+name: deploy
+
+on:
+  pull_request:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       ENV:
+#         description: 'Env (we have only one)'
+#         required: true
+#         default: 'development'
+#       VERSION:
+#         description: 'Release Version (eg. 0.0.5)'
+#         required: true 
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  GCP_PROJECT_ID: simple-326714
+  GCP_REGISTRY: europe-west3-docker.pkg.dev
+  APP_NAME: next-app
+  VERSION: 0.0.0 # ${{ github.event.inputs.VERSION }}
+  HELM_VERSION: v3.6.0
+  HELM_EXPERIMENTAL_OCI: 1
+
+jobs:
+  vars: 
+    # setup vars for easier usage (eg. needs.vars.outputs.HELM_IMAGE_TAG ); 
+    # useful when building vars based on env 
+    runs-on: [self-hosted, tools-low]
+    outputs:
+      HELM_IMAGE_TAG: ${{ steps.helm.outputs.HELM_IMAGE_TAG }}
+    steps:
+      - id: helm
+        run: echo "::set-output name=HELM_IMAGE_TAG::${{ env.GCP_REGISTRY }}/${{ env.GCP_PROJECT_ID }}/helm/${{ env.APP_NAME }}:${{ github.event.inputs.VERSION }}"
+
+  helm: 
+    # create, push and deploy helm chart
+    runs-on: [self-hosted, tools-low]
+    needs: [vars]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: get vault secrets
+        id: secrets
+        uses: hashicorp/vault-action@v2.1.2
+        with:
+          url: https://vault.gannettdigital.com
+          method: approle
+          roleId: ${{ secrets.VAULT_APPROLE_ROLEID }}
+          secretId: ${{ secrets.VAULT_APPROLE_SECRETID }}
+          exportEnv: false # Do not export env vars, KUBECONFIG becomes the secret itself, where we want a path
+          secrets: | 
+            secret/community-hub/applications/obits/gcp/artifact-registry sakey | GCP_REGISTRY_KEY;
+            secret/community-hub/applications/obits/gke/community-hub-obits-${{ github.event.inputs.ENV }}/actions-admin kubeconfig | KUBECONFIG;
+
+      - uses: ./.github/actions/setup_helm
+        with:
+          VERSION: ${{ env.HELM_VERSION }}
+          KUBECONFIG: ${{ steps.secrets.outputs.KUBECONFIG }}
+
+      - name: authenticate to registry
+        run: helm registry login -u _json_key_base64 -p ${{ steps.secrets.outputs.GCP_REGISTRY_KEY }} ${{ env.GCP_REGISTRY }}
+        shell: bash
+
+      - name: pull helm chart
+        run: helm chart pull ${{ needs.vars.outputs.HELM_IMAGE_TAG }}
+        shell: bash
+      
+      - name: list charts
+        run: helm list
+        shell: bash
+
+      - name: export chart
+        run: helm chart export ${{ needs.vars.outputs.HELM_IMAGE_TAG }}
+        shell: bash
+
+      # see output of export to get the path the chart gets exported to;
+      # timeout should be {number of pods} * {pod max start time}
+      # since helm does a rollout when upgrading
+      # https://blog.container-solutions.com/kubernetes-deployment-strategies
+      - name: deploy helm chart
+        run: |
+          helm upgrade \
+          ${{ env.APP_NAME }} ./${{ env.APP_NAME }} \
+          --values ./${{ env.APP_NAME }}/values-${{ github.event.inputs.ENV }}.yaml \
+          --install \
+          --atomic \
+          --reset-values \
+          --debug \
+          --wait \
+          --timeout 640s
